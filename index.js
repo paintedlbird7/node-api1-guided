@@ -64,6 +64,27 @@ server.delete('/hubs/:id', (req, res) => {
     });  
 }); 
 
+
+// the U in CRUDS (update)
+server.put('/hubs/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+  db.update(id, changes)
+    .then(updated => {
+        if (updated) {
+        res.status(200).json(updated);
+        } else {
+        res.status(404).json({ message: 'hub not found' });
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: 'error updating the hub' });
+    });  
+}); 
+
+
+
 // watch for connections on port 4000
 const port = 4000;
 server.listen(port, () => 
